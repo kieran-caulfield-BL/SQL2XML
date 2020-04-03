@@ -3,6 +3,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Data.Odbc;
+using System.Text.RegularExpressions;
 
 
 namespace SQL2XML
@@ -11,6 +12,26 @@ namespace SQL2XML
     {
         static void Main(string[] args)
         {
+            // we can have 2 arguments, the client code and the matter code
+            // if the matter code is blank then we search all matters (this is for 2nd dev)
+
+            Regex rgx = new Regex(@"[0-9]{6}-[0-9]{6}");
+
+            // Test if input arguments were supplied.
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please enter a Matter Code XXXXXX-0000XX.");
+                Environment.Exit(1);
+            }
+
+            if (!rgx.IsMatch(args[0].ToString()))
+            {
+                Console.WriteLine("Please enter a Matter Code in format 6 numbers with '-' followed by 6 numbers.");
+                Environment.Exit(1);
+            }
+
+            String inputMatterCode = args[0].ToString();
+
             string connString = @"dsn=2600;UID=sysprogress;PWD=sysprogress";
 
             string sql = @"Select
@@ -63,7 +84,7 @@ order by
                 conn.Open();
                 // execute the SQL
                 OdbcCommand cmd = new OdbcCommand(sql, conn);
-                cmd.Parameters.Add("MatterIdentifier", OdbcType.VarChar).Value = "081389-000002";
+                cmd.Parameters.Add("MatterIdentifier", OdbcType.VarChar).Value = inputMatterCode; // "example 081389-000002"
                 reader = cmd.ExecuteReader();
 
                 Console.WriteLine("Database = {0} \nDriver = {1} \nQuery {2}\nConnection String = {3}\nServer Version = {4}\nDataSource = {5}",

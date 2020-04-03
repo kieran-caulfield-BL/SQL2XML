@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL2XML", "SQL2XML.csproj", "{56D1D250-7C5D-4CB8-B2EB-15F633E391CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SQL2XML", "SQL2XML.csproj", "{56D1D250-7C5D-4CB8-B2EB-15F633E391CF}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetUp SQL2XML", "..\SetUp SQL2XML\SetUp SQL2XML.vdproj", "{A745EFC2-AF10-4C2D-B06A-ECC040854C94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{56D1D250-7C5D-4CB8-B2EB-15F633E391CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56D1D250-7C5D-4CB8-B2EB-15F633E391CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56D1D250-7C5D-4CB8-B2EB-15F633E391CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A745EFC2-AF10-4C2D-B06A-ECC040854C94}.Debug|Any CPU.ActiveCfg = Debug
+		{A745EFC2-AF10-4C2D-B06A-ECC040854C94}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
