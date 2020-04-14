@@ -15,18 +15,19 @@ namespace SQL2XML
             // we can have 2 arguments, the client code and the matter code
             // if the matter code is blank then we search all matters (this is for 2nd dev)
 
-            Regex rgx = new Regex(@"[0-9]{6}-[0-9]{6}");
+            //Regex rgx = new Regex(@"[0-9]{6}-[0-9]{6}");
+            Regex rgxClient = new Regex(@"[0-9]{6}");
 
             // Test if input arguments were supplied.
             if (args.Length == 0)
             {
-                Console.WriteLine("Please enter a Matter Code XXXXXX-0000XX.");
+                Console.WriteLine("Please enter a 6 digit Client Code XXXXXX.");
                 Environment.Exit(1);
             }
 
-            if (!rgx.IsMatch(args[0].ToString()))
+            if (!rgxClient.IsMatch(args[0].ToString()))
             {
-                Console.WriteLine("Please enter a Matter Code in format 6 numbers with '-' followed by 6 numbers.");
+                Console.WriteLine("Please enter a Code Code in format 6 numbers with a leading '0' if needed.");
                 Environment.Exit(1);
             }
 
@@ -66,7 +67,7 @@ From
     PUB.""FILE-LOCATION"" On PUB.""FILE-LOCATION"".""LOC-NAME"" = PUB.""DOC-CONTROL"".""ST-LOCATION"" Inner Join
     PUB.CLIDB On PUB.CLIDB.""CL-CODE"" = PUB.MATDB.""CL-CODE""
 Where
-    PUB.MATDB.""MT-CODE"" = ? And
+    PUB.MATDB.""CL-CODE"" = ? And
     PUB.HISTORY.""DOCUMENT-TYPE"" Is Not Null And
     PUB.HISTORY.""DOCUMENT-TYPE"" <> ''
 order by 
@@ -142,6 +143,7 @@ order by
                         XmlAttribute histFE = xmlDoc.CreateAttribute("LEVEL-FEE-EARNER");
                         XmlAttribute docGroup = xmlDoc.CreateAttribute("DOC-GROUP");
                         XmlAttribute stLocation = xmlDoc.CreateAttribute("ST-LOCATION");
+                        XmlAttribute dosPath = xmlDoc.CreateAttribute("DOS-PATH");
                         XmlAttribute subPath = xmlDoc.CreateAttribute("SUB-PATH");
                         XmlAttribute actualDocType = xmlDoc.CreateAttribute("DOC-TYPE");
                         XmlAttribute docExt = xmlDoc.CreateAttribute("EXTENSION");
@@ -158,6 +160,9 @@ order by
                         histFE.Value = reader["LEVEL-FEE-EARNER"].ToString();
                         docGroup.Value = reader["DOC-GROUP"].ToString();
                         stLocation.Value = reader["ST-LOCATION"].ToString();
+                    // split LOC-OPTIONS to get the DOS PATH
+                    string[] locOptions = reader["LOC-OPTIONS"].ToString().Split(",");
+                        dosPath.Value = locOptions[2].ToString();
                         subPath.Value = reader["SUB-PATH"].ToString();
                         actualDocType.Value = reader["DOC-TYPE"].ToString();
                         docExt.Value = reader["EXTENSION"].ToString();
@@ -174,6 +179,7 @@ order by
                         soldocNode.Attributes.Append(histFE);
                         soldocNode.Attributes.Append(docGroup);
                         soldocNode.Attributes.Append(stLocation);
+                        soldocNode.Attributes.Append(dosPath);
                         soldocNode.Attributes.Append(subPath);
                         soldocNode.Attributes.Append(actualDocType);
                         soldocNode.Attributes.Append(docExt);

@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "SQL2XML": {
+      "commandName": "Executable",
+      "commandLineArgs": "081389-000002"
+    },
+    "DEBUG with 081389-000002": {
+      "commandName": "Executable",
+      "commandLineArgs": "081389-000002",
+      "nativeDebugging": true
+    }
+  }
+}
